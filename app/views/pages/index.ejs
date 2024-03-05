@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas a fazer</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <!-- MATERIAL SYMBOLS & ICONS  -> https://fonts.google.com/icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+
+
+    <main>
+
+
+        <table>
+            <caption>Tarefas a fazer</caption>
+            <thead>
+                <th>Tarefa</th>
+                <th>Prazo</th>
+                <th>Situação</th>
+                <th>Editar</th>
+                <th>Iniciar</th>
+                <th>Finalizar</th>
+                <th>Excluir</th>
+            </thead>
+            <tbody>
+
+                <% let situacoes=["Pendente", "Em andamento", "Finalizada", "Cancelada" ]
+                    tarefas.forEach(function(tarefa){ %>
+
+                    <tr>
+                        <td>
+                            <%=tarefa.nome_tarefa %>
+                        </td>
+                        <td>
+                            <!-- <%=tarefa.prazo_tarefa %> -->
+                            <%= moment(tarefa.prazo_tarefa).format( 'DD/MM/YYYY') %>
+                        </td>
+                        <td>
+                            <%= situacoes[tarefa.situacao_tarefa]%>
+                        </td>
+                        <td>
+                            <button onclick=<%="window.location='/editar?id="+ tarefa.id_tarefa+"'" %> class="
+                                material-symbols-outlined edit">
+                                edit
+                            </button>
+                        </td>
+                        <td>
+                            <button onclick=<%="window.location='/iniciar?id="+ tarefa.id_tarefa+"'" %> class="
+                                material-symbols-outlined play_circle">
+                                play_circle
+                            </button>
+                        </td>
+                        <td>
+                            <button onclick=<%=" window.location='/finalizar?id="+ tarefa.id_tarefa+"'" %> class="
+                                material-symbols-outlined done_outline">
+                                done_outline
+                            </button>
+                        </td>
+                        <td>
+                            <button onclick=<%=" window.location='/excluir?id="+ tarefa.id_tarefa+"'" %> class="
+                                material-symbols-outlined delete">
+                                delete
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+
+            </tbody>
+        </table>
+        <input onclick="window.location='/adicionar'" type="button" value="Novo">
+    </main>
+
+</body>
+
+</html>

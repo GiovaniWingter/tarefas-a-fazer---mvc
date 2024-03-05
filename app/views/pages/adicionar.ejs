@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas a fazer</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+    <% 
+        const amanha = moment().add(1, "day");
+        var btnForm = "Adicionar";
+        var tituloForm = "Adicionar nova Tarefa";
+        var msgErro = {"tarefa":""}
+        var cssErro = {"tarefa":""}
+        let valorCampos = {id_tarefa:"",tarefa:"", prazo:moment(amanha).format( 'YYYY-MM-DD')}
+        var situacao = ["","","",""]
+        if(dados && dados!=null){
+            if(dados.id_tarefa  !=""){
+                tituloForm = "Alterar Tarefa";
+                btnForm = "Alterar";
+            }
+            valorCampos = dados
+            situacao[dados.situacao] = "selected"
+        }
+
+        if(listaErros){
+
+            listaErros.errors.forEach((itemErro)=>{
+                if(itemErro.path == "tarefa"){
+                    msgErro.tarefa = itemErro.msg
+                    cssErro.tarefa = "erroForm"
+                }
+            });
+        }
+    %>
+
+    <main>
+        <h1><%= tituloForm %></h1>
+        <form action="/adicionar" method="post">
+            <input type="hidden" name="id_tarefa" value="<%= valorCampos.id_tarefa %>">
+            <label for="tarefa">Descrição da tarefa</label>
+            <span class="<%= cssErro.tarefa %>"><%= msgErro.tarefa %></span>
+            <input type="text" name="tarefa" id="tarefa" value="<%= valorCampos.tarefa %>"> <br>
+            <label for="prazo">Data de Entrega</label>
+            <input type="date" name="prazo" id="prazo" value="<%= moment(valorCampos.prazo).format( 'YYYY-MM-DD')  %>"> <br>
+            <label for="situacao">Situação</label>
+            <select name="situacao" id="situacao">
+                <option <%= situacao[0]%> value="0">Pendente</option>
+                <option <%= situacao[1]%> value="1">Em andamento</option>
+                    <%
+                        if(dados && dados!=null){
+                    %>
+                <option <%= situacao[2]%> value="2">Finalizada</option>
+                <option <%= situacao[3]%> value="3">Cancelada</option>
+                    <%
+                        }
+                    %>
+            </select>
+            <input type="submit" value="<%= btnForm %>">
+        </form>
+    </main>
+
+</body>
+
+</html>
