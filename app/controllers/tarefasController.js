@@ -1,4 +1,4 @@
-const tarefasModel = require("../models/tarefas");
+const tarefasModel = require("../models/tarefasModel");
 const moment = require("moment");
 const { body, validationResult } = require("express-validator");
 const tarefasController = {
