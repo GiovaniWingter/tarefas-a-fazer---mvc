@@ -4,7 +4,7 @@ const moment = require("moment");
 const tarefasController = require("../controllers/tarefasController");
 
 router.get("/",  function (req, res) {
-   tarefasController.listarTarefasPaginadas(req, res);
+   tarefasController.listarTarefas(req, res);
 });
 
 router.get("/editar", function (req, res) {

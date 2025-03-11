@@ -10,7 +10,7 @@ const tarefasController = {
     body("situacao").isNumeric(),
   ],
 
-  listarTarefasPaginadas: async (req, res) => {
+  listarTarefas: async (req, res) => {
     res.locals.moment = moment;
     try {
       results = await tarefasModel.findAll();
