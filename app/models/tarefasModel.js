@@ -1,12 +1,17 @@
 var pool = require("../../config/pool_conexoes");
 
 const tarefasModel = {
-    findAll: async () => {
+    findAll: async (offset = null, qtde = null) => {
         try {
-            const [linhas] = await pool.query('SELECT * FROM tarefas WHERE status_tarefa = 1')
+            if(offset != null && qtde != null){
+                var [linhas] = await pool.query("select * from tarefas where status_tarefa = 1 limit ?,? ",[offset, qtde]);
+            }else{
+                var [linhas] = await pool.query("select * from tarefas where status_tarefa = 1");
+            }
+            
             return linhas;
-        } catch (error) {
-            return error;
+        } catch (erro) {
+            return erro;
         }
     },
 
@@ -58,6 +63,16 @@ const tarefasModel = {
         } catch (error) {
             return error;
         }  
+    },
+
+     totRegistros: async ()=>{
+        try{
+            const [linhas] = await pool.query("SELECT count(*) as total FROM `lista-tarefas`.tarefas");
+            return linhas[0].total;
+        }catch(erro){
+            return erro;
+        }
+
     }
   
 };

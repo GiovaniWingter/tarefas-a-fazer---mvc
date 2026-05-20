@@ -17,7 +17,8 @@
 
     <main>
 
-
+        
+        <input onclick="window.location='/adicionar'" type="button" value="Nova Tarefa">
         <table>
             <caption>Tarefas a fazer</caption>
             <thead>
@@ -74,8 +75,27 @@
 
             </tbody>
         </table>
-        <input onclick="window.location='/adicionar'" type="button" value="Novo">
-    </main>
+<%
+        if(notificador){
+            %>
+            <nav>
+                <ul>
+                <%
+                    for(var i = 1; i<= notificador.totalPaginas; i++){
+                    let marcado = i == notificador.paginaAtual? "atual" : "";    
+                        %>
+                        <li> <a class="<%= marcado %>" href="?pagina=<%= i%>"><%= i%></a></li>
+                <%        
+                    }
+                %>
+                </ul>
+            </nav>    
+
+            <%  
+        }
+
+    %>
+        </main>
 
 </body>
 

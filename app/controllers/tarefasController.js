@@ -12,11 +12,24 @@ const tarefasController = {
 
   listarTarefas: async (req, res) => {
     res.locals.moment = moment;
-    try {
-      results = await tarefasModel.findAll();
-      console.log(results);
+    //recuperar a página solicitada caso não exista será a página 1
+    let paginaAtual = req.query.pagina == undefined ? 1 : req.query.pagina;
+    //definir a qtde de registros por página
+    let qtdePagina = 5;
+    //definir o offset em relação a pagina atual
+    let offset = (paginaAtual - 1) * qtdePagina;
+    //definir o número de páginas de resultados
+    let totalPaginas = Math.ceil(await tarefasModel.totRegistros() / qtdePagina);
 
-      res.render("pages/index", { tarefas: results });
+    if (totalPaginas > 1) {
+      var paginador = { "paginaAtual": paginaAtual, "totalPaginas": totalPaginas }
+    } else {
+      var paginador = null
+    }
+
+    try {
+      const linhas = await tarefasModel.findAll(offset, qtdePagina);
+      res.render("pages/index", { tarefas: linhas, "notificador": paginador });
     } catch (e) {
       console.log(e); // exibir os erros no console do vs code
       res.json({ erro: "Falha ao acessar dados" });
