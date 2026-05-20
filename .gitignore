@@ -2,6 +2,7 @@
 
 # diretório de dependêcias
 node_modules/
+package-lock.jason
 #arquivo de variáveis de ambiente
 .env
 

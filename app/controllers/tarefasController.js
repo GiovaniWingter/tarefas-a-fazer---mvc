@@ -14,6 +14,8 @@ const tarefasController = {
     res.locals.moment = moment;
     try {
       results = await tarefasModel.findAll();
+      console.log(results);
+
       res.render("pages/index", { tarefas: results });
     } catch (e) {
       console.log(e); // exibir os erros no console do vs code
@@ -38,11 +40,11 @@ const tarefasController = {
     };
     let id_tarefa = req.body.id_tarefa;
     try {
-        if(id_tarefa==""){
-            results = await tarefasModel.create(dadosForm);
-        }else{
-            results = await tarefasModel.update(dadosForm,id_tarefa);
-        }
+      if (id_tarefa == "") {
+        results = await tarefasModel.create(dadosForm);
+      } else {
+        results = await tarefasModel.update(dadosForm, id_tarefa);
+      }
       res.redirect("/");
     } catch (e) {
       console.log(e);
