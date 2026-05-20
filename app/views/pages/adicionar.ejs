@@ -16,8 +16,8 @@
         const amanha = moment().add(1, "day");
         var btnForm = "Adicionar";
         var tituloForm = "Adicionar nova Tarefa";
-        var msgErro = {"tarefa":""}
-        var cssErro = {"tarefa":""}
+        var msgErro = {"tarefa":"","prazo":"","situacao":""}
+        var cssErro = {"tarefa":"","prazo":"","situacao":""}
         let valorCampos = {id_tarefa:"",tarefa:"", prazo:moment(amanha).format( 'YYYY-MM-DD')}
         var situacao = ["","","",""]
         if(dados && dados!=null){
@@ -36,6 +36,14 @@
                     msgErro.tarefa = itemErro.msg
                     cssErro.tarefa = "erroForm"
                 }
+                 if(itemErro.path == "prazo"){
+                    msgErro.prazo += itemErro.msg
+                    cssErro.prazo = "erroForm"
+                }
+                 if(itemErro.path == "situacao"){
+                    msgErro.situacao = item.msg
+                    cssErro.situacao = "erroForm"
+                }
             });
         }
     %>
@@ -48,8 +56,10 @@
             <span class="<%= cssErro.tarefa %>"><%= msgErro.tarefa %></span>
             <input type="text" name="tarefa" id="tarefa" value="<%= valorCampos.tarefa %>"> <br>
             <label for="prazo">Data de Entrega</label>
+            <span class="<%= cssErro.prazo %>"><%= msgErro.prazo %></span>
             <input type="date" name="prazo" id="prazo" value="<%= moment(valorCampos.prazo).format( 'YYYY-MM-DD')  %>"> <br>
             <label for="situacao">Situação</label>
+            <span class="<%= cssErro.situacao %>"><%= msgErro.situacao %></span>
             <select name="situacao" id="situacao">
                 <option <%= situacao[0]%> value="0">Pendente</option>
                 <option <%= situacao[1]%> value="1">Em andamento</option>

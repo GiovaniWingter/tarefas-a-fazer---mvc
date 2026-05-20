@@ -2,12 +2,23 @@ const tarefasModel = require("../models/tarefasModel");
 const moment = require("moment");
 const { body, validationResult } = require("express-validator");
 const tarefasController = {
+  
   regrasValidacao: [
-    body("tarefa")
-      .isLength({ min: 5, max: 45 })
-      .withMessage("Nome da Tarefa deve conter de 5 a 45 letras!"),
-    body("prazo").isISO8601(),
-    body("situacao").isNumeric(),
+   body("tarefa").isLength({ min: 5, max: 45 }).withMessage("Nome da tarefa deve ter de 5 a 45 caracteres!"),
+        body("situacao").isInt({ min: 0, max: 4 }).withMessage("Situação deve ser um inteiro de 0 a 4"),
+        body("prazo").isISO8601().withMessage("A data deve ser válida!"),
+        body("prazo").custom((value) => {
+            moment.locale('en')
+            let hoje = moment().format("L");
+            let prazo = moment(value).format("L");
+            moment.locale('pt-br');
+            if (moment(prazo).isSameOrAfter(hoje)) {
+                return true;
+            } else {
+                throw new Error("A data deve ser hoje ou no futuro!");
+            }
+
+        }),
   ],
 
   listarTarefas: async (req, res) => {

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const moment = require("moment");
+moment.locale('pt-br');
 const tarefasController = require("../controllers/tarefasController");
 
 router.get("/",  function (req, res) {
